@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>연세대 vs 고려대 OX 퀴즈 대결</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h1>연세대 vs 고려대 OX 퀴즈 대결</h1>
+        <div class="university-selection">
+            <h2>당신의 학교를 선택하세요</h2>
+            <div class="university-options">
+                <a href="{{ url_for('game', university='yonsei') }}" class="university-btn yonsei">
+                    <img src="{{ url_for('static', filename='images/yonsei_logo.png') }}" alt="연세대학교 로고">
+                    <span>연세대학교</span>
+                </a>
+                <a href="{{ url_for('game', university='korea') }}" class="university-btn korea">
+                    <img src="{{ url_for('static', filename='images/korea_logo.png') }}" alt="고려대학교 로고">
+                    <span>고려대학교</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ad Popup -->
+    <div id="ad-popup" class="ad-popup">
+        <div class="ad-content">
+            <div class="ad-header">
+                <span class="close-btn">&times;</span>
+            </div>
+            <div class="ad-body">
+                <h3>대학생 필수 앱!</h3>
+                <p>캠퍼스 생활을 더 편리하게! 지금 다운로드 받으세요.</p>
+                <img src="{{ url_for('static', filename='images/ad_image.png') }}" alt="광고 이미지">
+                <a href="#" class="ad-btn">앱 다운로드</a>
+            </div>
+        </div>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+</html> 
