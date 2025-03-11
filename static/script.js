@@ -3,6 +3,11 @@ document.querySelector('.ad-close').addEventListener('click', function() {
     document.getElementById('ad-popup').style.display = 'none';
 });
 
+// Function to show ad popup
+function showAdPopup() {
+    document.getElementById('ad-popup').style.display = 'flex';
+}
+
 let currentScore = 0;
 let selectedUniversity = '';
 let timerInterval;
@@ -113,6 +118,9 @@ function createScoreBar(university, score, maxScore, isTop) {
 
 function gameOver() {
     clearInterval(timerInterval);
+    
+    // Show ad popup when game is over
+    showAdPopup();
     
     // Get final scores
     fetch('/submit_answer', {
