@@ -3,15 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>연고전 O/X 퀴즈</title>
+    <title>고려 VS 연세 상식대항전</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
+    <!-- Ad Popup -->
+    <div id="ad-popup" class="ad-popup">
+        <div class="ad-content">
+            <button class="ad-close">&times;</button>
+            <img src="{{ url_for('static', filename='images/ad_square.gif') }}" alt="광고" class="ad-image">
+        </div>
+    </div>
+
     <div class="container">
         <!-- University Selection Screen -->
         <div id="university-selection" class="screen">
-            <h1 class="text-center mb-4">연고전 O/X 퀴즈</h1>
+            <h1 class="text-center mb-4">고려 VS 연세 상식대항전</h1>
             <div class="row">
                 <div class="col-md-6">
                     <button class="btn btn-primary btn-lg w-100 university-btn" data-university="yonsei">

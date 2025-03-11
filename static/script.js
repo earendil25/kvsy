@@ -1,3 +1,8 @@
+// Ad popup handling
+document.querySelector('.ad-close').addEventListener('click', function() {
+    document.getElementById('ad-popup').style.display = 'none';
+});
+
 let currentScore = 0;
 let selectedUniversity = '';
 let timerInterval;
