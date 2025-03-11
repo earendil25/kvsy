@@ -223,6 +223,44 @@ body {
     border-radius: 10px;
 }
 
+/* Action Buttons Container */
+.action-buttons {
+    margin-top: 20px;
+}
+
+/* Splash Message */
+.splash-message {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: rgba(0, 0, 0, 0.8);
+    color: white;
+    padding: 15px 30px;
+    border-radius: 50px;
+    z-index: 2000;
+    display: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.splash-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.1rem;
+}
+
+.splash-content i {
+    color: #28a745;
+    font-size: 1.5rem;
+}
+
+.splash-message.show {
+    display: flex;
+    opacity: 1;
+}
+
 .ad-popup {
     position: fixed;
     top: 0;
@@ -333,5 +371,13 @@ body {
     
     .ad-image {
         max-width: 90vw;
+    }
+    
+    .splash-content {
+        font-size: 0.9rem;
+    }
+    
+    .splash-content i {
+        font-size: 1.2rem;
     }
 } 

@@ -8,6 +8,62 @@ function showAdPopup() {
     document.getElementById('ad-popup').style.display = 'flex';
 }
 
+// Share functionality
+document.addEventListener('DOMContentLoaded', function() {
+    // 공유 버튼 클릭 이벤트 처리
+    const shareButton = document.getElementById('share-button');
+    if (shareButton) {
+        shareButton.addEventListener('click', function() {
+            copyToClipboard(window.location.href);
+        });
+    }
+    
+    // 초기 팝업 광고 표시
+    setTimeout(showAdPopup, 500);
+});
+
+// 클립보드에 복사하고 스플래시 메시지 표시 함수
+function copyToClipboard(text) {
+    // 클립보드에 텍스트 복사
+    navigator.clipboard.writeText(text)
+        .then(() => {
+            showSplashMessage();
+        })
+        .catch(err => {
+            // 클립보드 API가 지원되지 않는 경우 대체 방법 사용
+            const textArea = document.createElement('textarea');
+            textArea.value = text;
+            textArea.style.position = 'fixed';  // textarea가 화면에 보이지 않게 설정
+            textArea.style.opacity = 0;
+            document.body.appendChild(textArea);
+            textArea.focus();
+            textArea.select();
+            
+            try {
+                const successful = document.execCommand('copy');
+                if (successful) {
+                    showSplashMessage();
+                }
+            } catch (err) {
+                console.error('클립보드 복사 오류:', err);
+                alert('링크 복사에 실패했습니다.');
+            }
+            
+            document.body.removeChild(textArea);
+        });
+}
+
+// 스플래시 메시지 표시 함수
+function showSplashMessage() {
+    const splashMessage = document.getElementById('splash-message');
+    splashMessage.classList.add('show');
+    
+    // 2초 후 메시지 사라짐
+    setTimeout(() => {
+        splashMessage.classList.remove('show');
+    }, 2000);
+}
+
 let currentScore = 0;
 let selectedUniversity = '';
 let timerInterval;
