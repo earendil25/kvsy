@@ -30,6 +30,7 @@ def get_question():
         'answer': QUIZ_DATA[question]
     })
 
+#submit answer
 @app.route('/submit_answer', methods=['POST'])
 def submit_answer():
     data = request.json
