@@ -96,6 +96,7 @@ function createScoreBar(university, score, maxScore, isTop) {
     
     const scoreText = document.createElement('span');
     scoreText.textContent = score;
+    scoreText.className = 'score-value';
     
     scoreBarInfo.appendChild(logo);
     scoreBarInfo.appendChild(scoreText);
@@ -105,9 +106,16 @@ function createScoreBar(university, score, maxScore, isTop) {
     
     const bar = document.createElement('div');
     bar.className = `score-bar ${university}`;
-    const percentage = (score / (maxScore || 1)) * 100;
+    // 최소 10%의 너비를 가지도록 조정
+    const percentage = Math.max(10, (score / (maxScore || 1)) * 100);
     bar.style.width = `${percentage}%`;
-    bar.textContent = score;
+    
+    // 모바일 화면에서는 점수 텍스트가 보이지 않게 할 수 있음
+    if (window.innerWidth <= 767 && percentage < 30) {
+        bar.textContent = '';
+    } else {
+        bar.textContent = score;
+    }
     
     barContainer.appendChild(bar);
     barItem.appendChild(scoreBarInfo);
