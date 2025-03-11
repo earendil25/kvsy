@@ -4,6 +4,7 @@ import random
 from datetime import datetime
 import os
 
+#app start
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
 
