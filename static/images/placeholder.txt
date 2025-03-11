@@ -1,7 +1,0 @@
-Required images for the OX Quiz Game:
-
-1. yonsei_logo.png - Yonsei University logo
-2. korea_logo.png - Korea University logo
-3. ad_image.png - Advertisement image for the popup
-
-These images should be placed in this directory. 
