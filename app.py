@@ -5,6 +5,7 @@ from src.data.quiz_data import quiz_data
 import random
 import psycopg2
 from urllib.parse import urlparse
+from contextlib import contextmanager
 
 app = Flask(__name__)
 app.secret_key = os.urandom(24)
@@ -14,53 +15,65 @@ DATABASE_URL = os.environ.get('DATABASE_URL')
 if DATABASE_URL and DATABASE_URL.startswith('postgres://'):
     DATABASE_URL = DATABASE_URL.replace('postgres://', 'postgresql://', 1)
 
+@contextmanager
 def get_db_connection():
     conn = psycopg2.connect(DATABASE_URL)
-    return conn
+    try:
+        yield conn
+    finally:
+        conn.close()
+
+@contextmanager
+def get_db_cursor(commit=False):
+    with get_db_connection() as conn:
+        cursor = conn.cursor()
+        try:
+            yield cursor
+            if commit:
+                conn.commit()
+        finally:
+            cursor.close()
 
 # Initialize database
 def init_db():
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute('''
-        CREATE TABLE IF NOT EXISTS scores (
-            id SERIAL PRIMARY KEY,
-            university VARCHAR(10) NOT NULL,
-            score INTEGER DEFAULT 0
-        )
-    ''')
-    # Insert initial scores if not exists
-    cur.execute('INSERT INTO scores (university, score) SELECT %s, 0 WHERE NOT EXISTS (SELECT 1 FROM scores WHERE university = %s)', ('yonsei', 'yonsei'))
-    cur.execute('INSERT INTO scores (university, score) SELECT %s, 0 WHERE NOT EXISTS (SELECT 1 FROM scores WHERE university = %s)', ('korea', 'korea'))
-    conn.commit()
-    cur.close()
-    conn.close()
+    with get_db_cursor(commit=True) as cur:
+        # Create scores table if not exists
+        cur.execute('''
+            CREATE TABLE IF NOT EXISTS scores (
+                id SERIAL PRIMARY KEY,
+                university VARCHAR(10) NOT NULL UNIQUE,
+                score INTEGER DEFAULT 0
+            )
+        ''')
+        # Insert initial scores if not exists
+        cur.execute('''
+            INSERT INTO scores (university, score) 
+            VALUES (%s, 0), (%s, 0)
+            ON CONFLICT (university) DO NOTHING
+        ''', ('yonsei', 'korea'))
 
 # Initialize database on startup
 init_db()
 
 # Load scores from database
 def load_scores():
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute('SELECT university, score FROM scores')
-    scores = dict(cur.fetchall())
-    cur.close()
-    conn.close()
-    return scores.get('yonsei', 0), scores.get('korea', 0)
+    with get_db_cursor() as cur:
+        cur.execute('SELECT university, score FROM scores')
+        scores = dict(cur.fetchall())
+        return scores.get('yonsei', 0), scores.get('korea', 0)
 
-# Save scores to database
-def save_scores(yonsei_score, korea_score):
-    conn = get_db_connection()
-    cur = conn.cursor()
-    cur.execute('UPDATE scores SET score = %s WHERE university = %s', (yonsei_score, 'yonsei'))
-    cur.execute('UPDATE scores SET score = %s WHERE university = %s', (korea_score, 'korea'))
-    conn.commit()
-    cur.close()
-    conn.close()
-
-# Global variables to store scores (cached from database)
-yonsei_score, korea_score = load_scores()
+# Update score in database
+def update_score(university):
+    with get_db_cursor(commit=True) as cur:
+        # Use UPDATE with RETURNING to get the new score
+        cur.execute('''
+            UPDATE scores 
+            SET score = score + 1 
+            WHERE university = %s
+            RETURNING score
+        ''', (university,))
+        new_score = cur.fetchone()[0]
+        return new_score
 
 # Store shuffled questions for each session
 session_questions = {}
@@ -105,8 +118,6 @@ def get_question():
 
 @app.route('/api/answer', methods=['POST'])
 def check_answer():
-    global yonsei_score, korea_score
-    
     session_id = session.get('session_id')
     data = request.get_json()
     user_answer = data.get('answer')
@@ -124,14 +135,12 @@ def check_answer():
     if is_correct:
         session['score'] = session.get('score', 0) + 1
         
-        # Update global score based on university
-        if session.get('university') == 'yonsei':
-            yonsei_score += 1
-        else:
-            korea_score += 1
-        
-        # Save scores to database
-        save_scores(yonsei_score, korea_score)
+        # Update score in database
+        university = session.get('university')
+        try:
+            update_score(university)
+        except Exception as e:
+            app.logger.error(f"Error updating score: {e}")
     
     # Move to the next question
     session['current_question'] = current_question + 1
@@ -149,8 +158,7 @@ def get_result():
     if 'session_id' in session and session['session_id'] in session_questions:
         del session_questions[session['session_id']]
     
-    # Reload scores from database to ensure we have the latest values
-    global yonsei_score, korea_score
+    # Get latest scores from database
     yonsei_score, korea_score = load_scores()
     
     return jsonify({

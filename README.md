@@ -54,12 +54,12 @@
    heroku open
    ```
 
-## 이미지 추가하기
+## 필요한 이미지 파일
 
-`static/images` 디렉토리에 다음 이미지 파일을 추가해야 합니다:
+`static/images` 디렉토리에 다음 이미지 파일들이 필요합니다:
 - `yonsei_logo.png`: 연세대학교 로고
 - `korea_logo.png`: 고려대학교 로고
-- `ad_image.png`: 광고 이미지
+- `square_ad.png`: 광고 이미지
 
 ## 라이센스
 
