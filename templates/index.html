@@ -46,14 +46,10 @@
             <h2 class="text-center mb-4">게임 오버!</h2>
             <div class="final-scores">
                 <p>당신의 점수: <span id="final-score">0</span></p>
-                <div class="university-scores">
-                    <div class="university-score-item">
-                        <img src="{{ url_for('static', filename='images/yonsei_logo.png') }}" alt="연세대학교 로고" class="university-logo-small">
-                        <span>연세대 총점: <span id="yonsei-score">0</span></span>
-                    </div>
-                    <div class="university-score-item">
-                        <img src="{{ url_for('static', filename='images/korea_logo.png') }}" alt="고려대학교 로고" class="university-logo-small">
-                        <span>고려대 총점: <span id="korea-score">0</span></span>
+                <div class="score-graph-container">
+                    <h3 class="text-center mb-4">학교 총 점수</h3>
+                    <div id="score-bars">
+                        <!-- Score bars will be inserted here by JavaScript -->
                     </div>
                 </div>
             </div>

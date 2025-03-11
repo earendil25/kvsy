@@ -60,6 +60,52 @@ body {
     border-radius: 10px;
 }
 
+.score-graph-container {
+    margin: 2rem auto;
+    max-width: 600px;
+    padding: 1rem;
+}
+
+.score-bar-item {
+    display: flex;
+    align-items: center;
+    margin: 1rem 0;
+    gap: 1rem;
+}
+
+.score-bar-info {
+    display: flex;
+    align-items: center;
+    width: 200px;
+}
+
+.score-bar-container {
+    flex-grow: 1;
+    height: 40px;
+    background-color: #e9ecef;
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.score-bar {
+    height: 100%;
+    transition: width 0.5s ease-out;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 1rem;
+    color: white;
+    font-weight: bold;
+}
+
+.score-bar.yonsei {
+    background-color: #00458c;
+}
+
+.score-bar.korea {
+    background-color: #a61c1c;
+}
+
 .question-box {
     background-color: #f8f9fa;
     border-radius: 10px;

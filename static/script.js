@@ -72,6 +72,40 @@ function checkAnswer(selectedAnswer) {
     }
 }
 
+function createScoreBar(university, score, maxScore, isTop) {
+    const barItem = document.createElement('div');
+    barItem.className = 'score-bar-item';
+    
+    const scoreBarInfo = document.createElement('div');
+    scoreBarInfo.className = 'score-bar-info';
+    
+    const logo = document.createElement('img');
+    logo.src = `/static/images/${university}_logo.png`;
+    logo.alt = `${university === 'yonsei' ? '연세대학교' : '고려대학교'} 로고`;
+    logo.className = 'university-logo-small';
+    
+    const scoreText = document.createElement('span');
+    scoreText.textContent = score;
+    
+    scoreBarInfo.appendChild(logo);
+    scoreBarInfo.appendChild(scoreText);
+    
+    const barContainer = document.createElement('div');
+    barContainer.className = 'score-bar-container';
+    
+    const bar = document.createElement('div');
+    bar.className = `score-bar ${university}`;
+    const percentage = (score / (maxScore || 1)) * 100;
+    bar.style.width = `${percentage}%`;
+    bar.textContent = score;
+    
+    barContainer.appendChild(bar);
+    barItem.appendChild(scoreBarInfo);
+    barItem.appendChild(barContainer);
+    
+    return barItem;
+}
+
 function gameOver() {
     clearInterval(timerInterval);
     
@@ -91,7 +125,21 @@ function gameOver() {
         document.getElementById('quiz-screen').classList.add('d-none');
         document.getElementById('game-over-screen').classList.remove('d-none');
         document.getElementById('final-score').textContent = currentScore;
-        document.getElementById('yonsei-score').textContent = data.yonsei_score;
-        document.getElementById('korea-score').textContent = data.korea_score;
+        
+        // Clear previous score bars
+        const scoreBarsContainer = document.getElementById('score-bars');
+        scoreBarsContainer.innerHTML = '';
+        
+        // Calculate max score for percentage calculation
+        const maxScore = Math.max(data.yonsei_score, data.korea_score);
+        
+        // Create and append score bars in order (higher score first)
+        if (data.yonsei_score >= data.korea_score) {
+            scoreBarsContainer.appendChild(createScoreBar('yonsei', data.yonsei_score, maxScore, true));
+            scoreBarsContainer.appendChild(createScoreBar('korea', data.korea_score, maxScore, false));
+        } else {
+            scoreBarsContainer.appendChild(createScoreBar('korea', data.korea_score, maxScore, true));
+            scoreBarsContainer.appendChild(createScoreBar('yonsei', data.yonsei_score, maxScore, false));
+        }
     });
 } 
