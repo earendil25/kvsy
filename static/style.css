@@ -28,10 +28,21 @@ body {
     object-fit: cover;
 }
 
+.top-banner-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 600px;
+    align-items: center;
+    margin-bottom: 10px;
+    position: relative;
+    z-index: 90;
+}
+
 .top-banner {
     position: relative;
     z-index: 90;
-    margin-bottom: 10px;
+    margin-bottom: 5px;
     width: 100%;
     max-width: 600px;
 }
@@ -395,5 +406,10 @@ body {
     
     .splash-content i {
         font-size: 1.2rem;
+    }
+    
+    .top-banner-container,
+    .bottom-banner-container {
+        padding: 0 10px;
     }
 } 
