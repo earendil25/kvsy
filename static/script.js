@@ -45,6 +45,16 @@ function setupAdTracking() {
     });
 }
 
+// 공유 텍스트 생성 함수
+function generateShareText(yonseiScore, koreaScore, playerScore) {
+    const siteUrl = window.location.href;
+    if (yonseiScore >= koreaScore) {
+        return `연대 VS 고대 상식대항전\n연세대 총점: ${yonseiScore}\n고려대 총점: ${koreaScore}\n나의 점수: ${playerScore}\n나도 참여하기: ${siteUrl}`;
+    } else {
+        return `고대 VS 연대 상식대항전\n고려대 총점: ${koreaScore}\n연세대 총점: ${yonseiScore}\n나의 점수: ${playerScore}\n나도 참여하기: ${siteUrl}`;
+    }
+}
+
 // 클립보드에 복사하고 스플래시 메시지 표시 함수
 function copyToClipboard(text) {
     // 클립보드에 텍스트 복사
@@ -240,6 +250,15 @@ function gameOver() {
         } else {
             scoreBarsContainer.appendChild(createScoreBar('korea', data.korea_score, maxScore, true));
             scoreBarsContainer.appendChild(createScoreBar('yonsei', data.yonsei_score, maxScore, false));
+        }
+
+        // 공유 버튼 클릭 이벤트 업데이트
+        const shareButton = document.getElementById('share-button');
+        if (shareButton) {
+            shareButton.onclick = function() {
+                const shareText = generateShareText(data.yonsei_score, data.korea_score, currentScore);
+                copyToClipboard(shareText);
+            };
         }
     });
 } 
