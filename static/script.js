@@ -13,20 +13,29 @@ function showAdPopup() {
 function setupRotatingBanners() {
     const rotatingBanners = document.querySelectorAll('.rotating-banner');
     
-    rotatingBanners.forEach((banner, index) => {
+    rotatingBanners.forEach((banner) => {
         const images = banner.querySelectorAll('.banner-image');
+        const bannerLink = banner.closest('.ad-link');
         let currentIndex = 0;
         
-        // 각 배너마다 다른 시작 시간을 가지도록 설정
-        const startDelay = index * 2000; // 2초 간격으로 시작 시간 차이
-        
-        setTimeout(() => {
-            setInterval(() => {
-                images[currentIndex].classList.remove('active');
-                currentIndex = (currentIndex + 1) % images.length;
-                images[currentIndex].classList.add('active');
-            }, 4000); // 4초마다 이미지 전환
-        }, startDelay);
+        setInterval(() => {
+            // 현재 이미지 비활성화
+            images[currentIndex].classList.remove('active');
+            
+            // 다음 이미지 인덱스 계산
+            currentIndex = (currentIndex + 1) % images.length;
+            
+            // 다음 이미지 활성화
+            images[currentIndex].classList.add('active');
+            
+            // 링크 업데이트
+            if (bannerLink) {
+                const newLink = images[currentIndex].getAttribute('data-link');
+                if (newLink) {
+                    bannerLink.href = newLink;
+                }
+            }
+        }, 4000); // 4초마다 이미지 전환
     });
 }
 
