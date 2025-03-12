@@ -18,13 +18,21 @@
   gtag('config', 'G-J2VZS3WQF2');
 </script>
 <body>
-    <!-- Ad Popup -->
+    <!-- Ad Popup with Two Images -->
     <div id="ad-popup" class="ad-popup">
         <div class="ad-content">
             <button class="ad-close">&times;</button>
-            <a href="https://naver.me/xP8fPD9Y" target="_blank" class="ad-link">
-                <img src="{{ url_for('static', filename='images/ad_square.gif') }}" alt="광고" class="ad-image">
-            </a>
+            <div class="popup-ads-container">
+                <!-- Top Popup Ad -->
+                <a href="https://naver.me/xP8fPD9Y" target="_blank" class="ad-link">
+                    <img src="{{ url_for('static', filename='images/ad_square.gif') }}" alt="광고1" class="ad-image">
+                </a>
+                
+                <!-- Bottom Popup Ad -->
+                <a href="https://naver.me/xP8fPD9Y" target="_blank" class="ad-link">
+                    <img src="{{ url_for('static', filename='images/ad_square.gif') }}" alt="광고2" class="ad-image">
+                </a>
+            </div>
         </div>
     </div>
 
