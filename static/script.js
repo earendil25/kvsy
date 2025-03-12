@@ -1,5 +1,6 @@
 // Ad popup handling
-document.querySelector('.ad-close').addEventListener('click', function() {
+document.querySelector('.ad-close').addEventListener('click', function(e) {
+    e.stopPropagation(); // 클릭 이벤트가 부모 요소로 전파되지 않도록 함
     document.getElementById('ad-popup').style.display = 'none';
 });
 
@@ -20,7 +21,29 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 초기 팝업 광고 표시
     setTimeout(showAdPopup, 500);
+    
+    // 광고 이벤트 추적 설정 (선택적)
+    setupAdTracking();
 });
+
+// 광고 클릭 추적 함수 (선택적)
+function setupAdTracking() {
+    const adLinks = document.querySelectorAll('.ad-link');
+    adLinks.forEach((link, index) => {
+        link.addEventListener('click', function() {
+            // Google Analytics나 다른 추적 서비스가 있다면 여기에 추적 코드 추가 가능
+            console.log(`광고 ${index + 1} 클릭됨: ${link.href}`);
+            
+            // gtag가 정의되어 있다면 광고 클릭 이벤트 전송
+            if (typeof gtag === 'function') {
+                gtag('event', 'ad_click', {
+                    'ad_index': index + 1,
+                    'ad_url': link.href
+                });
+            }
+        });
+    });
+}
 
 // 클립보드에 복사하고 스플래시 메시지 표시 함수
 function copyToClipboard(text) {
