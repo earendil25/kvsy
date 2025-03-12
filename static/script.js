@@ -9,6 +9,27 @@ function showAdPopup() {
     document.getElementById('ad-popup').style.display = 'flex';
 }
 
+// 배너 이미지 회전 기능
+function setupRotatingBanners() {
+    const rotatingBanners = document.querySelectorAll('.rotating-banner');
+    
+    rotatingBanners.forEach((banner, index) => {
+        const images = banner.querySelectorAll('.banner-image');
+        let currentIndex = 0;
+        
+        // 각 배너마다 다른 시작 시간을 가지도록 설정
+        const startDelay = index * 2000; // 2초 간격으로 시작 시간 차이
+        
+        setTimeout(() => {
+            setInterval(() => {
+                images[currentIndex].classList.remove('active');
+                currentIndex = (currentIndex + 1) % images.length;
+                images[currentIndex].classList.add('active');
+            }, 4000); // 4초마다 이미지 전환
+        }, startDelay);
+    });
+}
+
 // Share functionality
 document.addEventListener('DOMContentLoaded', function() {
     // 공유 버튼 클릭 이벤트 처리
@@ -22,11 +43,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // 초기 팝업 광고 표시
     setTimeout(showAdPopup, 500);
     
-    // 광고 이벤트 추적 설정 (선택적)
+    // 광고 이벤트 추적 설정
     setupAdTracking();
+    
+    // 배너 이미지 회전 시작
+    setupRotatingBanners();
 });
 
-// 광고 클릭 추적 함수 (선택적)
+// 광고 클릭 추적 함수
 function setupAdTracking() {
     const adLinks = document.querySelectorAll('.ad-link');
     adLinks.forEach((link, index) => {

@@ -115,11 +115,15 @@
         </div>
     </div>
 
-    <!-- Bottom Banner Ad -->
+    <!-- Bottom Banner Ads -->
     <div class="bottom-banner-container">
+        <!-- Bottom Banner Ad -->
         <div class="banner-ad bottom-banner">
             <a href="https://naver.me/xP8fPD9Y" target="_blank" class="ad-link">
-                <img src="{{ url_for('static', filename='images/ad_banner3.gif') }}" alt="하단 배너 광고" class="banner-image">
+                <div class="rotating-banner">
+                    <img src="{{ url_for('static', filename='images/ad_banner2.gif') }}" alt="하단 배너 광고1" class="banner-image active">
+                    <img src="{{ url_for('static', filename='images/ad_banner3.gif') }}" alt="하단 배너 광고2" class="banner-image">
+                </div>
             </a>
         </div>
     </div>
