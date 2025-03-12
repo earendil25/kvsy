@@ -9,8 +9,53 @@ function showAdPopup() {
     document.getElementById('ad-popup').style.display = 'flex';
 }
 
+// 팝업 광고 이미지 순서 랜덤화 함수
+function randomizePopupAds() {
+    const popupAdsContainer = document.querySelector('.popup-ads-container');
+    if (!popupAdsContainer) return;
+
+    const adLinks = Array.from(popupAdsContainer.children);
+    if (Math.random() < 0.5) {
+        // 50% 확률로 순서를 바꿈
+        adLinks.reverse().forEach(link => popupAdsContainer.appendChild(link));
+    }
+}
+
+// 배너 이미지 회전 기능
+function setupRotatingBanners() {
+    const rotatingBanners = document.querySelectorAll('.rotating-banner');
+    
+    rotatingBanners.forEach((banner) => {
+        const images = banner.querySelectorAll('.banner-image');
+        const bannerLink = banner.closest('.ad-link');
+        let currentIndex = 0;
+        
+        setInterval(() => {
+            // 현재 이미지 비활성화
+            images[currentIndex].classList.remove('active');
+            
+            // 다음 이미지 인덱스 계산
+            currentIndex = (currentIndex + 1) % images.length;
+            
+            // 다음 이미지 활성화
+            images[currentIndex].classList.add('active');
+            
+            // 링크 업데이트
+            if (bannerLink) {
+                const newLink = images[currentIndex].getAttribute('data-link');
+                if (newLink) {
+                    bannerLink.href = newLink;
+                }
+            }
+        }, 4000); // 4초마다 이미지 전환
+    });
+}
+
 // Share functionality
 document.addEventListener('DOMContentLoaded', function() {
+    // 팝업 광고 이미지 순서 랜덤화
+    randomizePopupAds();
+    
     // 공유 버튼 클릭 이벤트 처리
     const shareButton = document.getElementById('share-button');
     if (shareButton) {
@@ -22,11 +67,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // 초기 팝업 광고 표시
     setTimeout(showAdPopup, 500);
     
-    // 광고 이벤트 추적 설정 (선택적)
+    // 광고 이벤트 추적 설정
     setupAdTracking();
+    
+    // 배너 이미지 회전 시작
+    setupRotatingBanners();
 });
 
-// 광고 클릭 추적 함수 (선택적)
+// 광고 클릭 추적 함수
 function setupAdTracking() {
     const adLinks = document.querySelectorAll('.ad-link');
     adLinks.forEach((link, index) => {
