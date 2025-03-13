@@ -378,50 +378,108 @@ body {
 /* 모바일 최적화 미디어 쿼리 */
 @media (max-width: 767px) {
     body {
-        padding: 10px 0;
+        padding: 5px 0;
     }
     
     .container {
-        padding: 0.5rem;
+        padding: 0.3rem;
+        margin: 5px 0;
     }
     
     .screen {
-        padding: 0.8rem;
+        padding: 0.5rem;
+    }
+
+    /* 대학 선택 화면 최적화 */
+    #university-selection h1 {
+        font-size: 1.3rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .row.g-2 {
+        gap: 0.3rem !important;
     }
     
     .university-btn {
-        padding: 1rem;
-        font-size: 1rem;
+        padding: 0.5rem;
+        font-size: 0.9rem;
+        margin: 0;
     }
     
     .university-logo {
-        width: 60px;
-        height: 60px;
+        width: 40px;
+        height: 40px;
+    }
+
+    .university-name {
+        font-size: 0.9rem;
+        margin: 0;
+    }
+
+    /* 게임 오버 화면 최적화 */
+    #game-over-screen h2 {
+        font-size: 1.2rem;
+        margin-bottom: 0.3rem;
+    }
+
+    .final-scores {
+        margin: 0.5rem 0;
+        font-size: 1rem;
+    }
+
+    .score-graph-container {
+        margin: 0.5rem auto;
+        padding: 0.3rem;
+    }
+
+    .score-graph-container h3 {
+        font-size: 1rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .score-bar-item {
+        margin: 0.3rem 0;
+        gap: 0.3rem;
+    }
+
+    .score-bar-container {
+        height: 30px;
+    }
+
+    .action-buttons {
+        margin-top: 0.5rem;
+        gap: 0.3rem;
+    }
+
+    .action-buttons .btn {
+        padding: 0.4rem;
+        font-size: 0.9rem;
+        margin-bottom: 0.3rem !important;
     }
     
     .question-box {
-        min-height: 100px;
-        padding: 1rem;
-        font-size: 1rem;
-        margin: 1rem 0;
+        min-height: 80px;
+        padding: 0.8rem;
+        font-size: 0.9rem;
+        margin: 0.8rem 0;
     }
     
     .answer-buttons {
-        gap: 1rem;
-        margin-top: 1rem;
+        gap: 0.8rem;
+        margin-top: 0.8rem;
     }
     
     .answer-btn {
-        padding: 0.8rem 2rem;
-        font-size: 1.2rem;
-    }
-    
-    .timer, .score-display {
+        padding: 0.6rem 1.5rem;
         font-size: 1rem;
     }
     
+    .timer, .score-display {
+        font-size: 0.9rem;
+    }
+    
     .banner-ad {
-        min-height: 50px;
+        min-height: 40px;
     }
     
     .ad-popup {
@@ -451,6 +509,7 @@ body {
     
     .top-banner-container,
     .bottom-banner-container {
-        padding: 0 10px;
+        padding: 0 8px;
+        margin: 5px 0;
     }
 } 
