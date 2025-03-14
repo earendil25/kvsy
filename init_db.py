@@ -23,8 +23,8 @@ def init_db():
     ''')
     
     # 초기 점수 113으로 설정
-    c.execute('INSERT INTO school_scores (school_name, score) VALUES (?, ?)', ('yonsei', 113))
-    c.execute('INSERT INTO school_scores (school_name, score) VALUES (?, ?)', ('korea', 113))
+    c.execute('INSERT INTO school_scores (school_name, score) VALUES (?, ?)', ('yonsei', 193))
+    c.execute('INSERT INTO school_scores (school_name, score) VALUES (?, ?)', ('korea', 193))
     
     conn.commit()
     conn.close()
